@@ -53,7 +53,7 @@ const Navbar = () => {
           {/*  Logo  */}
           <div className="flex items-center shrink-0">
             <img
-              src={logo}
+              src={footerlogo}
               alt="CXO Logo"
               className="h-9 sm:h-10 w-auto object-contain"
             />
