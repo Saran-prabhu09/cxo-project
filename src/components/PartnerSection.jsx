@@ -192,7 +192,7 @@ const PartnerSection = () => {
                     <img
                       src={logo.src}
                       alt={logo.name}
-                      className="h-8 sm:h-10 md:h-12 max-w-full object-contain select-none"
+                      className="h-16 sm:h-12 md:h-18 max-w-full object-contain select-none"
                       loading="lazy"
                       draggable={false}
                       style={{
