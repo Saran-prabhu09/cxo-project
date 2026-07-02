@@ -91,6 +91,8 @@ const CountUp = ({ target, suffix = "" }) => {
     </span>
   );
 };
+
+const SHOW_ICONS = false;
 /* Data*/
 const metrics = [
   {
@@ -251,30 +253,31 @@ const WhereLeadersConverge = () => {
             {metrics.map((card, i) => (
               <Reveal key={i} direction="right" delay={100 + i * 90}>
                 <div
-                  className="
-                    bg-white border border-[#E5E7EB] rounded-[10px]
-                    flex flex-col items-center justify-start text-center
-                    px-3 pt-7 pb-6
-                    min-w-27 sm:min-w-0
-                    hover:border-[#5707C7]/30
-                    hover:shadow-[0_4px_20px_rgba(87,7,199,0.10)]
-                    transition-all duration-300 ease-out group
-                  "
+                  className={`
+    bg-white border border-[#E5E7EB] rounded-[10px]
+    flex flex-col items-center text-center
+    min-w-27 sm:min-w-0
+    hover:border-[#5707C7]/30
+    hover:shadow-[0_4px_20px_rgba(87,7,199,0.10)]
+    transition-all duration-300 ease-out group
+    ${SHOW_ICONS ? "justify-start px-3 pt-7 pb-6" : "justify-center px-3 py-6"}
+  `}
                   style={{ height: "220px" }}
                 >
                   {/* Icon badge */}
-                  <div
-                    className="
+                  {SHOW_ICONS && (
+                    <div
+                      className="
                     w-11 h-11 rounded-full bg-[#F5F0FF]
                     flex items-center justify-center mb-4
                     group-hover:bg-[#ede4ff]
                     group-hover:scale-110
                     transition-all duration-300 ease-out
                   "
-                  >
-                    {card.icon}
-                  </div>
-
+                    >
+                      {card.icon}
+                    </div>
+                  )}
                   {/* Animated number */}
                   <h3 className="text-[#5707C7] text-[32px] sm:text-[36px] lg:text-[38px] font-bold leading-none">
                     <CountUp target={card.value} suffix={card.suffix} />
