@@ -77,6 +77,8 @@ const logos = [
   { name: "IBM", src: Ibm },
   { name: "Microsoft", src: Microsoft },
 ];
+const marqueeLogos = [...logos, ...logos];
+
 const PartnerSection = () => {
   return (
     <section className="bg-white py-16 font-['Poppins'] overflow-hidden">
@@ -179,18 +181,18 @@ const PartnerSection = () => {
 
               {/* MARQUEE TRACK */}
               <div
-                className="flex w-max py-3"
-                style={{ animation: "marquee 28s linear infinite" }}
+                className="flex w-max items-center py-3 whitespace-nowrap will-change-transform"
+                style={{ animation: "marquee 22s linear infinite" }}
               >
-                {[...logos, ...logos, ...logos].map((logo, index) => (
+                {marqueeLogos.map((logo, index) => (
                   <div
-                    key={index}
+                    key={`${logo.name}-${index}`}
                     className="flex items-center justify-center shrink-0 mx-10 sm:mx-12 lg:mx-14"
                   >
                     <img
                       src={logo.src}
                       alt={logo.name}
-                      className="max-h-22 max-w-full object-contain select-none"
+                      className="h-8 sm:h-10 md:h-12 max-w-full object-contain select-none"
                       loading="lazy"
                       draggable={false}
                       style={{
@@ -215,10 +217,6 @@ const PartnerSection = () => {
   @keyframes marquee {
     0%   { transform: translateX(0); }
     100% { transform: translateX(-50%); }
-  }
-  /* Pause on hover for accessibility */
-  .marquee-track:hover {
-    animation-play-state: paused;
   }
 `}</style>
         {/* FINAL CTA BANNER*/}
