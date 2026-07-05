@@ -65,7 +65,7 @@ const councils = [
   },
   {
     icon: UserRound,
-    title: "CISO / CYBER\nSherpa Councils",
+    title: "CYBER\nSherpa Councils",
     description: "Securing, scaling, and sustaining modern enterprises",
     iconBg: "bg-[#E8D9FF]",
     iconColor: "#5707C7",
