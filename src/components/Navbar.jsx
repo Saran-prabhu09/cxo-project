@@ -68,7 +68,7 @@ const Navbar = () => {
             <img
               src={footerlogo}
               alt="CXO Logo"
-              className="h-14 sm:h-16 w-auto object-contain"
+              className="h-16 sm:h-18 w-auto object-contain"
             />
           </div>
 

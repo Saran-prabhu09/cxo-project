@@ -199,7 +199,7 @@ const Footer = () => {
                 src={footerlogo}
                 alt="CXO Logo"
                 loading="lazy"
-                className="w-20 sm:w-26 h-auto object-contain"
+                className="w-28 sm:w-32 h-auto object-contain"
               />
 
               <p className="mt-5 text-[#52525B] text-[12px] leading-6 max-w-55">
