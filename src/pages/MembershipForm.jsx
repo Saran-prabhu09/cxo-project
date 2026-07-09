@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import backgroundImage from "../assets/images/backgroundImage.png";
 import CxoImage from "../assets/images/CxoImage.png";
 
-// ─── Constants ────────────────────────────────────────────────────────────────
-
 const STEPS = [
   "Personal Information",
   "Professional Profile",
@@ -64,26 +62,25 @@ const INDIAN_STATES = [
   "West Bengal",
 ];
 
-// ─── Shared Tailwind class strings ────────────────────────────────────────────
-
 const INPUT_CLS =
-  "w-full border border-gray-300 rounded-lg px-4 py-3 text-sm text-gray-900 " +
-  "placeholder-gray-400 bg-white focus:outline-none focus:ring-2 " +
-  "focus:ring-purple-500 focus:border-transparent transition-all duration-150";
+  "w-full border border-gray-200 rounded-lg px-4 py-3 text-[14px] text-gray-900 " +
+  "placeholder-gray-400 bg-white focus:outline-none focus:border-[#4a04c4] focus:ring-1 " +
+  "focus:ring-[#4a04c4] transition-all duration-200 shadow-sm";
 
-const LABEL_CLS = "block text-sm font-semibold text-gray-700 mb-1.5";
+const LABEL_CLS = "block text-[13px] font-semibold text-gray-600 mb-1.5";
 
-const CB_WRAP_CLS = "flex items-start gap-2.5 cursor-pointer";
+const CB_WRAP_CLS = "flex items-start gap-2.5 cursor-pointer group";
 
-const CB_TEXT_CLS = "text-sm text-gray-700 leading-snug";
+const CB_TEXT_CLS =
+  "text-[14px] text-gray-600 leading-snug group-hover:text-gray-900 transition-colors";
 
 const CB_INPUT_CLS =
-  "mt-0.5 w-4 h-4 accent-purple-700 flex-shrink-0 cursor-pointer";
+  "mt-[3px] w-4 h-4 text-[#4a04c4] bg-gray-100 border-gray-300 rounded focus:ring-[#4a04c4] focus:ring-2 cursor-pointer transition-all";
 
 const SECTION_TITLE_CLS =
-  "text-xs font-bold text-purple-800 uppercase tracking-widest mb-3 pb-1 border-b border-purple-100";
+  "text-[13px] font-bold text-[#4a04c4] uppercase tracking-wider mb-4 pb-1";
 
-// ─── CustomDropdown ───────────────────────────────────────────────────────────
+// CustomDropdown
 
 const CustomDropdown = ({ options, value, onChange, name, placeholder }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -117,15 +114,15 @@ const CustomDropdown = ({ options, value, onChange, name, placeholder }) => {
 
       {/* Options list */}
       {isOpen && (
-        <ul className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-xl max-h-52 overflow-y-auto py-1">
+        <ul className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-52 overflow-y-auto py-1">
           {options.map((opt) => (
             <li
               key={opt}
               className={
-                "px-4 py-2.5 text-sm cursor-pointer transition-colors duration-100 " +
+                "px-4 py-2.5 text-[14px] cursor-pointer transition-colors duration-100 " +
                 (value === opt
-                  ? "bg-purple-100 text-purple-800 font-semibold"
-                  : "text-gray-700 hover:bg-purple-50")
+                  ? "bg-purple-50 text-[#4a04c4] font-semibold"
+                  : "text-gray-700 hover:bg-gray-50")
               }
               onClick={() => {
                 onChange({ target: { name, value: opt } });
@@ -141,17 +138,14 @@ const CustomDropdown = ({ options, value, onChange, name, placeholder }) => {
   );
 };
 
-// ─── MembershipForm ───────────────────────────────────────────────────────────
-
 const MembershipForm = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
   const [highestCompletedStep, setHighestCompletedStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
+  const [submitStatus, setSubmitStatus] = useState(null);
 
   const [formData, setFormData] = useState({
-    // Step 0 – Personal Information
     fullName: "",
     officialEmail: "",
     countryCode: "+91",
@@ -159,35 +153,20 @@ const MembershipForm = () => {
     linkedIn: "",
     designation: "",
     organization: "",
-    department: "",
     industry: "",
     city: "",
     state: "",
-    officeTelephone: "",
-    country: "",
-    website: "",
-    // Step 1 – Professional Profile
     leadershipRole: [],
     leadershipRoleOther: "",
     experience: [],
     expertise: [],
     expertiseOther: "",
-    // Step 2 – Community Participation
     membershipCategory: [],
     contributeAs: [],
-    // Step 3 – Areas of Interest
     areasOfInterest: [],
-    // Step 4 – Membership Interest
     motivation: "",
-    // Kept for data parity
-    professionalBio: "",
-    documents: [],
-    applicantName: "",
-    date: "",
-    applicantSignature: "",
   });
 
-  // Scroll to top whenever the step changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentStep]);
@@ -216,43 +195,34 @@ const MembershipForm = () => {
     const form = document.querySelector("form");
     if (!form.reportValidity()) return;
 
-    if (currentStep === 0) {
-      if (!formData.industry || !formData.state) {
-        alert("Please select your Industry and State from the dropdowns.");
-        return;
-      }
+    if (currentStep === 0 && (!formData.industry || !formData.state)) {
+      alert("Please select your Industry and State from the dropdowns.");
+      return;
     }
-
-    if (currentStep === 1) {
-      if (
-        formData.leadershipRole.length === 0 ||
+    if (
+      currentStep === 1 &&
+      (formData.leadershipRole.length === 0 ||
         formData.experience.length === 0 ||
-        formData.expertise.length === 0
-      ) {
-        alert(
-          "Please select at least one option for each section (Leadership, Experience, Expertise).",
-        );
-        return;
-      }
+        formData.expertise.length === 0)
+    ) {
+      alert(
+        "Please select at least one option for each section (Leadership, Experience, Expertise).",
+      );
+      return;
     }
-
-    if (currentStep === 2) {
-      if (
-        formData.membershipCategory.length === 0 ||
-        formData.contributeAs.length === 0
-      ) {
-        alert(
-          "Please select at least one option for each section (Membership Category, Contribution).",
-        );
-        return;
-      }
+    if (
+      currentStep === 2 &&
+      (formData.membershipCategory.length === 0 ||
+        formData.contributeAs.length === 0)
+    ) {
+      alert(
+        "Please select at least one option for each section (Membership Category, Contribution).",
+      );
+      return;
     }
-
-    if (currentStep === 3) {
-      if (formData.areasOfInterest.length === 0) {
-        alert("Please select at least one area of interest.");
-        return;
-      }
+    if (currentStep === 3 && formData.areasOfInterest.length === 0) {
+      alert("Please select at least one area of interest.");
+      return;
     }
 
     if (currentStep < STEPS.length - 1) {
@@ -275,34 +245,26 @@ const MembershipForm = () => {
       setIsSubmitting(false);
       return;
     }
-
-    if (currentStep === 4) {
-      if (!formData.motivation.trim()) {
-        alert("Please elaborate on why you want to join.");
-        setIsSubmitting(false);
-        return;
-      }
+    if (currentStep === 4 && !formData.motivation.trim()) {
+      alert("Please elaborate on why you want to join.");
+      setIsSubmitting(false);
+      return;
     }
 
-    // ── EmailJS / API call goes here ──────────────────────────────────────
-    // emailjs.send(SERVICE_ID, TEMPLATE_ID, { ...formData }, PUBLIC_KEY)
-    //   .then(() => setSubmitStatus('success'))
-    //   .catch(() => setSubmitStatus('error'))
-    //   .finally(() => setIsSubmitting(false));
+    // Dummy submission mock
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitStatus("success");
     }, 1500);
   };
 
-  // ── Step content renderer ────────────────────────────────────────────────
+  //  Step content renderer
 
   const renderStep = () => {
     switch (currentStep) {
-      // ── 0: Personal Information ──────────────────────────────────────────
       case 0:
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
             <div className="md:col-span-2">
               <label className={LABEL_CLS}>Full Name</label>
               <input
@@ -315,7 +277,6 @@ const MembershipForm = () => {
                 required
               />
             </div>
-
             <div>
               <label className={LABEL_CLS}>Official Email Address</label>
               <input
@@ -328,22 +289,26 @@ const MembershipForm = () => {
                 required
               />
             </div>
-
             <div>
               <label className={LABEL_CLS}>
                 Phone Number (with country code)
               </label>
               <div className="flex gap-2">
-                <select
-                  name="countryCode"
-                  value={formData.countryCode}
-                  onChange={handleInputChange}
-                  className={`${INPUT_CLS} w-20 shrink-0 pr-1`}
-                >
-                  <option>+91</option>
-                  <option>+1</option>
-                  <option>+44</option>
-                </select>
+                <div className="relative w-21.25 shrink-0">
+                  <select
+                    name="countryCode"
+                    value={formData.countryCode}
+                    onChange={handleInputChange}
+                    className={`${INPUT_CLS} appearance-none pr-6 bg-transparent relative z-10 cursor-pointer text-center`}
+                  >
+                    <option>+91</option>
+                    <option>+1</option>
+                    <option>+44</option>
+                  </select>
+                  <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-[10px] pointer-events-none z-0">
+                    ▼
+                  </span>
+                </div>
                 <input
                   type="tel"
                   name="mobileNumber"
@@ -355,7 +320,6 @@ const MembershipForm = () => {
                 />
               </div>
             </div>
-
             <div>
               <label className={LABEL_CLS}>LinkedIn Profile URL</label>
               <input
@@ -368,7 +332,6 @@ const MembershipForm = () => {
                 required
               />
             </div>
-
             <div>
               <label className={LABEL_CLS}>Designation</label>
               <input
@@ -381,7 +344,6 @@ const MembershipForm = () => {
                 required
               />
             </div>
-
             <div>
               <label className={LABEL_CLS}>Organization / Company</label>
               <input
@@ -394,7 +356,6 @@ const MembershipForm = () => {
                 required
               />
             </div>
-
             <div>
               <label className={LABEL_CLS}>Industry</label>
               <CustomDropdown
@@ -405,7 +366,6 @@ const MembershipForm = () => {
                 placeholder="Select your industry"
               />
             </div>
-
             <div>
               <label className={LABEL_CLS}>City</label>
               <input
@@ -418,7 +378,6 @@ const MembershipForm = () => {
                 required
               />
             </div>
-
             <div>
               <label className={LABEL_CLS}>State</label>
               <CustomDropdown
@@ -432,14 +391,12 @@ const MembershipForm = () => {
           </div>
         );
 
-      // ── 1: Professional Profile ──────────────────────────────────────────
       case 1:
         return (
           <div className="space-y-8">
-            {/* Leadership Role */}
             <div>
               <h4 className={SECTION_TITLE_CLS}>Leadership Role</h4>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {[
                   "CIO",
                   "CTO",
@@ -465,7 +422,7 @@ const MembershipForm = () => {
                     <span className={CB_TEXT_CLS}>{role}</span>
                   </label>
                 ))}
-                <div className="col-span-2 md:col-span-3 flex items-center gap-3 mt-1.5">
+                <div className="col-span-2 md:col-span-3 flex items-center gap-3 mt-2">
                   <span
                     className={`${CB_TEXT_CLS} font-semibold whitespace-nowrap`}
                   >
@@ -482,13 +439,11 @@ const MembershipForm = () => {
                 </div>
               </div>
             </div>
-
-            {/* Years of Experience */}
             <div>
               <h4 className={SECTION_TITLE_CLS}>
                 Years of Leadership Experience
               </h4>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {["5–10 Years", "10–15 Years", "15–20 Years", "20+ Years"].map(
                   (exp) => (
                     <label key={exp} className={CB_WRAP_CLS}>
@@ -506,11 +461,9 @@ const MembershipForm = () => {
                 )}
               </div>
             </div>
-
-            {/* Primary Areas of Expertise */}
             <div>
               <h4 className={SECTION_TITLE_CLS}>Primary Areas of Expertise</h4>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {[
                   "Artificial Intelligence",
                   "Cybersecurity",
@@ -535,7 +488,7 @@ const MembershipForm = () => {
                     <span className={CB_TEXT_CLS}>{item}</span>
                   </label>
                 ))}
-                <div className="col-span-2 md:col-span-3 flex items-center gap-3 mt-1.5">
+                <div className="col-span-2 md:col-span-3 flex items-center gap-3 mt-2">
                   <span
                     className={`${CB_TEXT_CLS} font-semibold whitespace-nowrap`}
                   >
@@ -555,14 +508,12 @@ const MembershipForm = () => {
           </div>
         );
 
-      // ── 2: Community Participation ───────────────────────────────────────
       case 2:
         return (
           <div className="space-y-8">
-            {/* Membership Category */}
             <div>
               <h4 className={SECTION_TITLE_CLS}>Membership Category</h4>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {[
                   "Founding Member",
                   "Executive Member",
@@ -588,13 +539,11 @@ const MembershipForm = () => {
                 ))}
               </div>
             </div>
-
-            {/* Contribute As */}
             <div>
               <h4 className={SECTION_TITLE_CLS}>
                 I Would Like to Contribute As:
               </h4>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {[
                   "Speaker",
                   "Mentor",
@@ -622,10 +571,9 @@ const MembershipForm = () => {
           </div>
         );
 
-      // ── 3: Areas of Interest ─────────────────────────────────────────────
       case 3:
         return (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-3">
             {[
               "Executive Networking",
               "Leadership Roundtables",
@@ -653,19 +601,18 @@ const MembershipForm = () => {
           </div>
         );
 
-      // ── 4: Membership Interest ───────────────────────────────────────────
       case 4:
         return (
           <div>
-            <label className="block text-base font-semibold text-gray-800 mb-3">
+            <label className="block text-[15px] font-semibold text-gray-800 mb-3">
               Why do you want to join the CXO Sherpa Council?
             </label>
             <textarea
               name="motivation"
               value={formData.motivation}
               onChange={handleInputChange}
-              className={`${INPUT_CLS} min-h-52 resize-y`}
-              placeholder="Please elaborate..."
+              className={`${INPUT_CLS} min-h-40 resize-y`}
+              placeholder="Please elaborate on your motivations and goals..."
               required
             />
           </div>
@@ -676,41 +623,56 @@ const MembershipForm = () => {
     }
   };
 
-  // ── Render ────────────────────────────────────────────────────────────────
-
   return (
-    <div className="relative min-h-screen bg-linear-to-br from-purple-50 via-white to-orange-50 overflow-hidden">
-      {/* Background graphic */}
+    <div className="relative min-h-screen bg-white overflow-x-hidden font-sans">
+      {/* Dynamic Keyframes for smooth standard fade-in without relying on missing plugins */}
+      <style>{`
+        @keyframes customFadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-step {
+          animation: customFadeIn 0.4s ease-out forwards;
+        }
+      `}</style>
+
+      {/* Background Graphic positioned Top-Right strictly */}
       <img
         src={backgroundImage}
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 w-full h-full object-cover opacity-5 pointer-events-none select-none z-0"
+        className="absolute top-0 right-0 w-87.5 md:w-125 max-w-full h-auto object-top-right object-contain pointer-events-none select-none z-0"
       />
 
       {/* ── Header ── */}
-      <header className="relative z-10 text-center pt-10 pb-6 px-4">
-        <h1 className="text-3xl md:text-4xl font-bold text-purple-900 inline-flex items-center justify-center flex-wrap gap-3">
-          Join
-          <img src={CxoImage} alt="CXO Sherpa" className="h-10 w-auto" />
-          Sherpa Council
+      <header className="relative z-10 text-center pt-12 pb-10 px-4 flex flex-col items-center">
+        <h1 className="text-3xl md:text-[38px] font-bold inline-flex items-center justify-center flex-wrap gap-2 md:gap-3 leading-tight">
+          <span className="text-orange-500">Join</span>
+          <img
+            src={CxoImage}
+            alt="CXO Sherpa"
+            className="h-9 md:h-11 w-auto mx-1"
+          />
+          <span className="text-orange-500">Sherpa Council</span>
         </h1>
-        <h2 className="text-xs md:text-sm font-semibold text-gray-500 tracking-[0.3em] uppercase mt-2">
+        <h2 className="text-[14px] md:text-[15px] font-bold text-[#4a04c4] tracking-widest uppercase mt-4">
           Membership Application Form
         </h2>
       </header>
 
-      {/* ── Page layout ── */}
-      <div className="relative z-10 flex flex-col md:flex-row gap-6 max-w-6xl mx-auto px-4 pb-14 items-start">
-        {/* ── Sidebar Stepper ── */}
-        <aside className="md:w-56 w-full shrink-0 md:sticky md:top-8">
+      {/*  Page layout  */}
+      <div className="relative z-10 flex flex-col md:flex-row gap-10 max-w-275 mx-auto px-6 pb-24 items-start">
+        {/*  Sidebar Stepper  */}
+        <aside className="w-full md:w-70 shrink-0 md:sticky md:top-10 relative mt-2">
+          {/* Vertical connecting line */}
+          <div className="hidden md:block absolute left-4.75 top-6 bottom-10 w-0.5 bg-orange-200 z-0"></div>
+
           <nav
             aria-label="Form steps"
-            className="flex md:flex-col flex-row flex-wrap gap-1"
+            className="flex md:flex-col flex-row flex-wrap gap-8 md:gap-10 relative z-10"
           >
             {STEPS.map((step, index) => {
               const isActive = index === currentStep;
-              const isCompleted = index < currentStep;
               const isLocked = index > highestCompletedStep;
 
               return (
@@ -723,45 +685,39 @@ const MembershipForm = () => {
                   onClick={() => {
                     if (!isLocked) setCurrentStep(index);
                   }}
-                  onKeyDown={(e) => {
-                    if (!isLocked && (e.key === "Enter" || e.key === " "))
-                      setCurrentStep(index);
-                  }}
                   className={[
-                    "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 outline-none",
+                    "flex items-center gap-4 transition-all duration-200 outline-none group bg-transparent",
                     isLocked
-                      ? "opacity-40 cursor-not-allowed"
-                      : "cursor-pointer focus-visible:ring-2 focus-visible:ring-purple-400",
-                    isActive
-                      ? "bg-purple-700 shadow-md shadow-purple-200"
-                      : isCompleted
-                        ? "hover:bg-purple-50"
-                        : "hover:bg-gray-100",
+                      ? "opacity-60 cursor-not-allowed"
+                      : "cursor-pointer",
                   ].join(" ")}
                 >
-                  {/* Step circle */}
-                  <div
-                    className={[
-                      "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 transition-all",
-                      isActive ? "bg-white text-purple-700" : "",
-                      isCompleted && !isActive
-                        ? "bg-purple-700 text-white"
-                        : "",
-                      !isActive && !isCompleted
-                        ? "bg-gray-200 text-gray-500"
-                        : "",
-                    ].join(" ")}
-                  >
-                    {isCompleted ? "✓" : String(index + 1).padStart(2, "0")}
+                  {/* Step circle container */}
+                  <div className="relative w-10 h-10 flex items-center justify-center shrink-0 z-10 bg-white rounded-full">
+                    {/* Active state Pulse Animation */}
+                    {isActive && (
+                      <span className="absolute inset-0 rounded-full bg-[#4a04c4] animate-ping opacity-25 duration-1000"></span>
+                    )}
+
+                    <div
+                      className={[
+                        "relative w-full h-full rounded-full flex items-center justify-center text-[15px] transition-all z-10",
+                        isActive
+                          ? "bg-[#4a04c4] text-white font-bold"
+                          : "border-2 border-[#ea580c] text-[#ea580c] font-semibold bg-white",
+                      ].join(" ")}
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </div>
                   </div>
 
                   {/* Step label */}
                   <span
                     className={[
-                      "text-xs font-medium leading-tight",
-                      isActive ? "text-white" : "",
-                      isCompleted && !isActive ? "text-purple-700" : "",
-                      !isActive && !isCompleted ? "text-gray-500" : "",
+                      "text-[15px] font-medium leading-tight",
+                      isActive
+                        ? "text-gray-900 font-bold"
+                        : "text-gray-500 group-hover:text-gray-800",
                     ].join(" ")}
                   >
                     {step}
@@ -772,70 +728,50 @@ const MembershipForm = () => {
           </nav>
         </aside>
 
-        {/* ── Form Panel ── */}
-        <main className="flex-1 bg-white rounded-2xl shadow-xl shadow-purple-100/60 border border-purple-100 p-6 md:p-8">
+        {/*  Form Panel  */}
+        <main className="flex-1 w-full bg-white rounded-2xl shadow-[0_4px_24px_rgb(0,0,0,0.04)] border-[1.5px] border-orange-500 p-8 md:p-12 relative overflow-hidden">
           <form onSubmit={handleSubmit} className="flex flex-col h-full">
-            {/* Step content — key forces remount on step change */}
-            <div key={currentStep} className="flex-1">
-              <h2 className="text-2xl font-bold text-purple-900 mb-6 pb-4 border-b border-purple-100">
+            <div key={currentStep} className="flex-1 animate-fade-in-step">
+              <h2 className="text-[22px] font-bold text-[#2e0964] mb-8">
                 {STEPS[currentStep]}
               </h2>
 
               {renderStep()}
             </div>
 
-            {/* ── Navigation actions ── */}
-            <div className="flex justify-between items-center mt-8 pt-5 border-t border-gray-100">
+            {/*  Navigation actions  */}
+            <div className="flex justify-between items-center mt-12 pt-6 border-t border-gray-100">
               <button
                 type="button"
                 onClick={prevStep}
                 disabled={isSubmitting}
                 style={{ visibility: currentStep === 0 ? "hidden" : "visible" }}
-                className="px-7 py-2.5 rounded-full text-sm font-semibold bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-200 disabled:opacity-60"
+                className="px-6 py-2.5 rounded-lg text-[14px] font-semibold text-gray-500 hover:bg-gray-100 transition-all duration-200 disabled:opacity-60"
               >
-                ← Back
+                Back
               </button>
 
               {currentStep < STEPS.length - 1 ? (
                 <button
                   type="button"
                   onClick={nextStep}
-                  className="px-8 py-2.5 rounded-full text-sm font-semibold text-white bg-orange-500 hover:bg-orange-600 active:scale-95 transition-all duration-200 shadow-md shadow-orange-200"
+                  className="px-10 py-3 rounded-lg text-[14px] font-semibold text-white bg-[#4a04c4] hover:bg-purple-900 active:scale-95 transition-all duration-200 shadow-md shadow-purple-900/20"
                 >
-                  Continue →
+                  Continue
                 </button>
               ) : (
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-8 py-2.5 rounded-full text-sm font-semibold text-white bg-orange-500 hover:bg-orange-600 active:scale-95 transition-all duration-200 shadow-md shadow-orange-200 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="px-10 py-3 rounded-lg text-[14px] font-semibold text-white bg-[#4a04c4] hover:bg-purple-900 active:scale-95 transition-all duration-200 shadow-md shadow-purple-900/20 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? "Submitting…" : "Submit Application"}
+                  {isSubmitting ? "Submitting…" : "Continue"}
                 </button>
               )}
             </div>
           </form>
         </main>
       </div>
-
-      {/* ── Success Popup ── */}
-      {submitStatus === "success" && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-10 max-w-md w-full text-center shadow-2xl">
-            {/* Checkmark icon */}
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-5">
-              <span className="text-3xl font-bold text-green-600">✓</span>
-            </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-3">
-              Application Submitted!
-            </h2>
-            <p className="text-sm text-gray-500 leading-relaxed">
-              Thank you for your interest in the CXO Sherpa Council. We
-              appreciate your application and will be in touch soon.
-            </p>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
