@@ -57,7 +57,7 @@ const features = [
   },
   {
     icon: PencilLine,
-    title: "Thought Leadership &\nInfluence",
+    title: "Thought &\nLeadership",
     description:
       "Publish insights, participate in executive conversations, and build credible authority at scale.",
   },

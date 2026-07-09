@@ -68,6 +68,7 @@ const benefits = [
     title: "Co-created research and thought leadership",
   },
 ];
+const SHOW_LOGOS = false;
 /* Scroll-logos*/
 const logos = [
   { name: "Accenture", src: accenture },
@@ -142,83 +143,88 @@ const PartnerSection = () => {
         {/* 
             TRUSTED BY LEADERS
         */}
-        <div className="mt-24 sm:mt-28 text-center">
+        <div className="mt-20 sm:mt-16 text-center hidden">
           <Reveal direction="up">
-            <h2 className="text-[#111248] text-[28px] sm:text-[32px] lg:text-[38px] font-bold leading-tight mb-3">
+            <h2 className="text-[#111248] text-[28px] sm:text-[32px] lg:text-[38px] font-bold leading-tight mb-4">
               Trusted by Leaders Across Industries
             </h2>
           </Reveal>
 
           <Reveal direction="up" delay={100}>
-            <p className="text-[#535353] text-[14px] sm:text-[16px] font-medium leading-6 max-w-3xl mx-auto mb-10">
+            <p className="text-[#535353] text-[14px] sm:text-[16px] font-medium leading-6 max-w-3xl mx-auto mb-4">
               Join a growing network of forward-thinking executives and
               enterprise leaders shaping the future of business.
             </p>
           </Reveal>
-
-          <Reveal direction="up" delay={200}>
-            {/* TRUSTED BY LEADERS MARQUEE */}
-            <div className="mt-10 relative overflow-hidden w-full">
-              {/* LEFT FADE */}
-              <div
-                className="absolute inset-y-0 left-0 z-10 pointer-events-none"
-                style={{
-                  width: "120px",
-                  background:
-                    "linear-gradient(to right, #ffffff 0%, transparent 100%)",
-                }}
-              />
-
-              {/* RIGHT FADE */}
-              <div
-                className="absolute inset-y-0 right-0 z-10 pointer-events-none"
-                style={{
-                  width: "140px",
-                  background:
-                    "linear-gradient(to left, #ffffff 0%, transparent 100%)",
-                }}
-              />
-
-              {/* MARQUEE TRACK */}
-              <div
-                className="flex w-max items-center py-3 whitespace-nowrap will-change-transform"
-                style={{ animation: "marquee 22s linear infinite" }}
-              >
-                {marqueeLogos.map((logo, index) => (
-                  <div
-                    key={`${logo.name}-${index}`}
-                    className="flex items-center justify-center shrink-0 mx-10 sm:mx-12 lg:mx-14"
-                  >
-                    <img
-                      src={logo.src}
-                      alt={logo.name}
-                      className="h-16 sm:h-12 md:h-18 max-w-full object-contain select-none"
-                      loading="lazy"
-                      draggable={false}
-                      style={{
-                        mixBlendMode: "multiply",
-                        filter: "grayscale(20%)",
-                        transition: "filter 0.3s ease",
-                      }}
-                      onMouseEnter={(e) =>
-                        (e.currentTarget.style.filter = "grayscale(0%)")
-                      }
-                      onMouseLeave={(e) =>
-                        (e.currentTarget.style.filter = "grayscale(20%)")
-                      }
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Reveal>
         </div>
-        <style>{`
+        <div className="mt-20 sm:mt-16 text-center">
+          {SHOW_LOGOS && (
+            <Reveal direction="up" delay={200}>
+              {/* TRUSTED BY LEADERS MARQUEE */}
+              <div className="mt-4 relative overflow-hidden w-full">
+                {/* LEFT FADE */}
+                <div
+                  className="absolute inset-y-0 left-0 z-10 pointer-events-none"
+                  style={{
+                    width: "120px",
+                    background:
+                      "linear-gradient(to right, #ffffff 0%, transparent 100%)",
+                  }}
+                />
+
+                {/* RIGHT FADE */}
+                <div
+                  className="absolute inset-y-0 right-0 z-10 pointer-events-none"
+                  style={{
+                    width: "140px",
+                    background:
+                      "linear-gradient(to left, #ffffff 0%, transparent 100%)",
+                  }}
+                />
+
+                {/* MARQUEE TRACK */}
+                <div
+                  className="flex w-max items-center py-3 whitespace-nowrap will-change-transform"
+                  style={{ animation: "marquee 22s linear infinite" }}
+                >
+                  {marqueeLogos.map((logo, index) => (
+                    <div
+                      key={`${logo.name}-${index}`}
+                      className="flex items-center justify-center shrink-0 mx-10 sm:mx-12 lg:mx-14"
+                    >
+                      <img
+                        src={logo.src}
+                        alt={logo.name}
+                        className="h-16 sm:h-12 md:h-18 max-w-full object-contain select-none"
+                        loading="lazy"
+                        draggable={false}
+                        style={{
+                          mixBlendMode: "multiply",
+                          filter: "grayscale(20%)",
+                          transition: "filter 0.3s ease",
+                        }}
+                        onMouseEnter={(e) =>
+                          (e.currentTarget.style.filter = "grayscale(0%)")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.currentTarget.style.filter = "grayscale(20%)")
+                        }
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          )}
+        </div>
+        {SHOW_LOGOS && (
+          <style>{`
   @keyframes marquee {
     0%   { transform: translateX(0); }
     100% { transform: translateX(-50%); }
   }
 `}</style>
+        )}
         {/* FINAL CTA BANNER*/}
         <Reveal direction="up" delay={80} className="mt-16 sm:mt-20">
           <div

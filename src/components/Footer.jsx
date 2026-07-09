@@ -1,5 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaTwitter,
+  FaChevronDown,
+} from "react-icons/fa";
 import footerlogo from "../assets/images/footerlogo.png";
 
 function useInView(threshold = 0.1) {
@@ -81,6 +86,54 @@ const SocialIcon = ({ icon: Icon, label }) => {
   );
 };
 
+const DropdownLink = ({ item }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <li className="relative flex flex-col items-start">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="
+          relative flex items-center gap-1.5
+          text-[#52525B] text-[14px] font-normal
+          hover:text-[#5707C7]
+          transition-colors duration-200 ease-out
+          after:absolute after:left-0 after:-bottom-0.5
+          after:h-[1.5px] after:w-0 after:bg-[#5707C7] after:rounded-full
+          after:transition-all after:duration-300 after:ease-out
+          hover:after:w-full
+        "
+      >
+        {item.name}
+        <FaChevronDown
+          className={`text-[10px] transition-transform duration-300 ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+
+      <div
+        className={`overflow-hidden transition-all duration-300 ease-out ${
+          isOpen ? "max-h-40 opacity-100 mt-3" : "max-h-0 opacity-0 mt-0"
+        }`}
+      >
+        <ul className="flex flex-col gap-2.5 pl-3 border-l-[1.5px] border-[#E4E4E7]">
+          {item.dropdown.map((subItem, idx) => (
+            <li key={idx}>
+              <a
+                href="#"
+                className="text-[#52525B] text-[13px] hover:text-[#5707C7] transition-colors duration-200"
+              >
+                {subItem}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </li>
+  );
+};
+
 /*Data*/
 const socials = [
   { icon: FaTwitter, label: "Twitter" },
@@ -91,11 +144,29 @@ const socials = [
 const columns = [
   {
     heading: "Explore",
-    links: ["About", "Programmes", "Advisory board", "Membership"],
+    links: [
+      "About",
+      "Leadership ",
+      {
+        name: "Members",
+        dropdown: ["All Members", "By Industry", "By Function", "By Expertise"],
+      },
+
+      "Inniatives",
+      "Insights",
+      "Events",
+    ],
   },
   {
     heading: "Communities",
-    links: ["councils", "Nominate a CXO", "Partner with us"],
+    links: [
+      {
+        name: "Councils",
+        dropdown: ["CIO Sherpa", "CMO Sherpa", "CHRO Sherpa", "CYBER Sherpa"],
+      },
+      "Nominate a CXO",
+      "Contact us",
+    ],
   },
   {
     heading: "Useful Links",
@@ -128,7 +199,7 @@ const Footer = () => {
                 src={footerlogo}
                 alt="CXO Logo"
                 loading="lazy"
-                className="w-36 sm:w-40 h-auto object-contain"
+                className="w-20 sm:w-26 h-auto object-contain"
               />
 
               <p className="mt-5 text-[#52525B] text-[12px] leading-6 max-w-55">
@@ -158,37 +229,43 @@ const Footer = () => {
                 </h3>
 
                 <ul className="flex flex-col gap-3 sm:gap-4">
-                  {col.links.map((link, i) => (
-                    <li key={i}>
-                      <a
-                        href="#"
-                        className="
-                          relative inline-block
-                          text-[#52525B] text-[14px] font-normal
-                          hover:text-[#5707C7]
-                          transition-colors duration-200 ease-out
-                          after:absolute after:left-0 after:-bottom-0.5
-                          after:h-[1.5px] after:w-0 after:bg-[#5707C7] after:rounded-full
-                          after:transition-all after:duration-300 after:ease-out
-                          hover:after:w-full
-                        "
-                      >
-                        {link}
-                      </a>
-                    </li>
-                  ))}
+                  {col.links.map((linkItem, i) => {
+                    const isDropdown =
+                      typeof linkItem === "object" && linkItem.dropdown;
+
+                    if (isDropdown) {
+                      return <DropdownLink key={i} item={linkItem} />;
+                    }
+
+                    return (
+                      <li key={i}>
+                        <a
+                          href="#"
+                          className="
+                            relative inline-block
+                            text-[#52525B] text-[14px] font-normal
+                            hover:text-[#5707C7]
+                            transition-colors duration-200 ease-out
+                            after:absolute after:left-0 after:-bottom-0.5
+                            after:h-[1.5px] after:w-0 after:bg-[#5707C7] after:rounded-full
+                            after:transition-all after:duration-300 after:ease-out
+                            hover:after:w-full
+                          "
+                        >
+                          {linkItem}
+                        </a>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </Reveal>
           ))}
         </div>
 
-        {/* ── Divider ── */}
         <Reveal direction="none" delay={250}>
           <div className="mt-10 sm:mt-12 border-t border-[#E4E4E7]" />
         </Reveal>
-
-        {/* ── Copyright — centred single line ── */}
         <Reveal direction="up" delay={270}>
           <div className="py-5 text-center">
             <p className="text-[#A1A1AA] text-[13px]">

@@ -3,14 +3,27 @@ import { ArrowRight, Menu, X } from "lucide-react";
 import footerlogo from "../assets/images/footerlogo.png";
 
 const navLinks = [
-  { label: "Home", href: "#" },
   { label: "About", href: "#" },
-  { label: "Programmes", href: "#" },
+  { label: "Leadership", href: "#" },
+  {
+    label: "Members",
+    href: "#",
+    children: [
+      { label: "All Members", href: "#" },
+      { label: "By Industry", href: "#" },
+      { label: "By Function", href: "#" },
+      { label: "By Expertise", href: "#" },
+    ],
+  },
+  { label: "Initiatives", href: "#" },
+  { label: "Insights", href: "#" },
+  { label: "Events", href: "#" },
 ];
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mobileDropdown, setMobileDropdown] = useState(null);
   const mobileMenuRef = useRef(null);
 
   useEffect(() => {
@@ -49,41 +62,83 @@ const Navbar = () => {
           ${scrolled ? "shadow-[0_2px_20px_rgba(0,0,0,0.08)]" : "shadow-none"}
         `}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 h-16 sm:h-18 flex items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-5 lg:px-8 h-20 sm:h-20 flex items-center justify-between gap-4">
           {/*  Logo  */}
           <div className="flex items-center shrink-0">
             <img
               src={footerlogo}
               alt="CXO Logo"
-              className="h-9 sm:h-10 w-auto object-contain"
+              className="h-14 sm:h-16 w-auto object-contain"
             />
           </div>
 
           {/*  Desktop nav  */}
-          <nav className="hidden md:flex items-center gap-8 lg:gap-10">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="
-                  relative text-[#18181B] text-[14px] font-medium
-                  hover:text-[#FB6427] transition-colors duration-200
-                  after:absolute after:left-0 after:-bottom-0.5
-                  after:h-0.5 after:w-0 after:bg-[#FB6427] after:rounded-full
-                  after:transition-all after:duration-300 after:ease-out
-                  hover:after:w-full
-                "
-              >
-                {link.label}
-              </a>
-            ))}
+          <nav className="hidden md:flex items-center gap-6 lg:gap-8 mx-auto">
+            {navLinks.map((link) =>
+              link.children ? (
+                <div key={link.label} className="relative group">
+                  <a
+                    href={link.href}
+                    className="
+            relative text-[#18181B] text-[14px] font-medium
+            hover:text-[#FB6427] transition-colors duration-200
+            after:absolute after:left-0 after:-bottom-0.5
+            after:h-0.5 after:w-0 after:bg-[#FB6427] after:rounded-full
+            after:transition-all after:duration-300 after:ease-out
+            hover:after:w-full
+          "
+                  >
+                    {link.label}
+                  </a>
+
+                  <div
+                    className="
+            absolute left-0 top-full mt-3 w-52
+            bg-white rounded-lg shadow-xl border border-gray-100
+            opacity-0 invisible group-hover:opacity-100
+            group-hover:visible transition-all duration-200
+            py-2 z-50
+          "
+                  >
+                    {link.children.map((child) => (
+                      <a
+                        key={child.label}
+                        href={child.href}
+                        className="
+                block px-4 py-2 text-[14px] text-[#18181B]
+                hover:bg-[#FFF5F1] hover:text-[#FB6427]
+                transition-colors duration-200
+              "
+                      >
+                        {child.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="
+          relative text-[#18181B] text-[14px] font-medium
+          hover:text-[#FB6427] transition-colors duration-200
+          after:absolute after:left-0 after:-bottom-0.5
+          after:h-0.5 after:w-0 after:bg-[#FB6427] after:rounded-full
+          after:transition-all after:duration-300 after:ease-out
+          hover:after:w-full
+        "
+                >
+                  {link.label}
+                </a>
+              ),
+            )}
           </nav>
 
           {/*  Desktop CTA buttons  */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-3 shrink-0">
             <button
               className="
-                h-10 px-5 lg:px-6 rounded-lg
+                h-11 px-4 lg:px-6 rounded-xl
                 bg-[#FB6427] text-white text-[13px] lg:text-[14px] font-medium
                 flex items-center gap-2
                 hover:bg-[#e0541a] hover:shadow-[0_4px_16px_rgba(251,100,39,0.35)]
@@ -109,7 +164,7 @@ const Navbar = () => {
                 transition-all duration-200 ease-out
               "
             >
-              Partner with us
+              Contact us
               <ArrowRight size={15} />
             </button>
           </div>
@@ -178,7 +233,7 @@ const Navbar = () => {
           <img
             src={footerlogo}
             alt="CXO Logo"
-            className="h-9 sm:h-10 w-auto object-contain"
+            className="h-12 sm:h-14 w-auto object-contain"
           />
           <button
             onClick={() => setMenuOpen(false)}
@@ -192,28 +247,86 @@ const Navbar = () => {
         </div>
 
         {/* Nav links */}
+        {/* Nav links */}
         <nav className="flex flex-col px-4 sm:px-6 pt-4 pb-2">
           {navLinks.map((link, i) => (
-            <a
+            <div
               key={link.label}
-              href={link.href}
-              onClick={() => setMenuOpen(false)}
-              className="
-                text-[#18181B] text-[15px] font-medium py-3.5
-                border-b border-gray-100 last:border-0
-                hover:text-[#FB6427]
-                flex items-center justify-between
-                transition-colors duration-200
-              "
               style={{
                 opacity: menuOpen ? 1 : 0,
                 transform: menuOpen ? "translateX(0)" : "translateX(-16px)",
                 transition: `opacity 0.35s ease-out ${80 + i * 60}ms, transform 0.35s ease-out ${80 + i * 60}ms`,
               }}
             >
-              {link.label}
-              <ArrowRight size={14} className="text-gray-300" />
-            </a>
+              {link.children ? (
+                <>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setMobileDropdown(
+                        mobileDropdown === link.label ? null : link.label,
+                      )
+                    }
+                    className="
+              w-full text-[#18181B] text-[15px] font-medium py-3.5
+              border-b border-gray-100
+              hover:text-[#FB6427]
+              flex items-center justify-between
+              transition-colors duration-200
+            "
+                  >
+                    <span>{link.label}</span>
+
+                    <ArrowRight
+                      size={14}
+                      className={`text-gray-300 transition-transform duration-300 ${
+                        mobileDropdown === link.label ? "rotate-90" : ""
+                      }`}
+                    />
+                  </button>
+
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ${
+                      mobileDropdown === link.label
+                        ? "max-h-60 opacity-100"
+                        : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    <div className="pl-5 border-b border-gray-100 pb-2">
+                      {link.children.map((child) => (
+                        <a
+                          key={child.label}
+                          href={child.href}
+                          onClick={() => setMenuOpen(false)}
+                          className="
+                    block py-2 text-[14px] text-[#18181B]
+                    hover:text-[#FB6427]
+                    transition-colors duration-200
+                  "
+                        >
+                          {child.label}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <a
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="
+            text-[#18181B] text-[15px] font-medium py-3.5
+            border-b border-gray-100
+            hover:text-[#FB6427]
+            flex items-center justify-between
+            transition-colors duration-200
+          "
+                >
+                  {link.label}
+                  <ArrowRight size={14} className="text-gray-300" />
+                </a>
+              )}
+            </div>
           ))}
         </nav>
 
@@ -251,7 +364,7 @@ const Navbar = () => {
               transition-all duration-200
             "
           >
-            Partner with us
+            Contact us
             <ArrowRight size={15} />
           </button>
         </div>
