@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { ArrowRight, Menu, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import footerlogo from "../assets/images/footerlogo.png";
 
 const navLinks = [
@@ -21,6 +22,7 @@ const navLinks = [
 ];
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mobileDropdown, setMobileDropdown] = useState(null);
@@ -137,6 +139,7 @@ const Navbar = () => {
           {/*  Desktop CTA buttons  */}
           <div className="hidden md:flex items-center gap-3 shrink-0">
             <button
+              onClick={() => navigate("/membership")}
               className="
                 h-11 px-4 lg:px-6 rounded-xl
                 bg-[#FB6427] text-white text-[13px] lg:text-[14px] font-medium
@@ -340,7 +343,7 @@ const Navbar = () => {
           }}
         >
           <button
-            onClick={() => setMenuOpen(false)}
+            onClick={() => navigate("/membership")}
             className="
               flex-1 h-11 rounded-lg
               bg-[#FB6427] text-white text-[14px] font-medium

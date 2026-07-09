@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Monitor, Megaphone, Users, UserRound } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import HeroImage from "../assets/images/HeroImage.png";
 
 function useInView(threshold = 0.06) {
@@ -73,6 +74,8 @@ const councils = [
 ];
 
 const Hero = () => {
+  const navigate = useNavigate();
+
   return (
     /* outer wrapper — clips horizontal overflow from absolute image */
     <div className="overflow-x-hidden font-['Poppins'] bg-white">
@@ -143,6 +146,7 @@ const Hero = () => {
                 className="flex flex-wrap gap-3 mt-9"
               >
                 <button
+                  onClick={() => navigate("/membership")}
                   className="
                   bg-[#5707C7] text-white
                   px-6 py-2.75 rounded-xl
